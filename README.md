@@ -1,11 +1,15 @@
 # trancheck
 ## task
 There is a table in database of this structure:
-|id(int)|amount(decimal)|data(json)|
-|---|------|-------------|
-|123|100.05|{"a":1,"b":2}|
-|124|150.75|{"a":10,"b":20}|
-|125|1010.00|{"a":20,"b":30}|
+```
+ id  | amount  |      data       
+ int | decimal |      json       
+-----+---------+-----------------
+ 123 |  100.05 | {"a":1,"b":2}
+ 124 |  150.75 | {"a":10,"b":20}
+ 125 | 1010.00 | {"a":20,"b":30}
+ 126 |   15.50 | {"a":30,"b":40}
+```
 Task is to check amounts in transactions given in file like that:
 ```
 PID;PAMOUNT;PDATA;
