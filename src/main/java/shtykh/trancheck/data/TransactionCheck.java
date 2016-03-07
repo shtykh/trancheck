@@ -13,6 +13,15 @@ public class TransactionCheck extends Transaction {
 		original.ifPresent(o->this.originalAmount=o.getAmount());
 	}
 
+	public TransactionCheck(Transaction tested, Transaction original) {
+		super(tested.getId(), tested.getAmount());
+		this.originalAmount=original.getAmount();
+	}
+
+	public TransactionCheck(Transaction tested) {
+		super(tested.getId(), tested.getAmount());
+	}
+
 	public Double getOriginalAmount() {
 		return originalAmount;
 	}

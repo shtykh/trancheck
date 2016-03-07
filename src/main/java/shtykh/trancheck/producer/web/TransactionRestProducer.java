@@ -28,7 +28,7 @@ public class TransactionRestProducer extends TransactionProducer<Collection<Tran
 	}
 
 	@Override
-	protected TransactionCheckPrinter getPrinter() {
+	protected TransactionCheckPrinter<Collection<TransactionCheck>> getPrinter() {
 		return printer;
 	}
 
@@ -36,11 +36,5 @@ public class TransactionRestProducer extends TransactionProducer<Collection<Tran
 	@ResponseBody
 	public Collection<TransactionCheck> check(@RequestBody Collection<TransactionJson> json) {
 		return super.check(json);
-	}
-
-	@RequestMapping(value="/ping", method= RequestMethod.GET)
-	@ResponseBody
-	public String ping() {
-		return "Pong";
 	}
 }

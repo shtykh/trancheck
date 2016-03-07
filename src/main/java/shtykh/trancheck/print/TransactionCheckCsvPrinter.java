@@ -4,7 +4,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import shtykh.trancheck.data.TransactionCheck;
 
-import java.util.Collection;
+import java.util.stream.Stream;
 
 /**
  * Created by shtykh on 06/03/16.
@@ -12,10 +12,11 @@ import java.util.Collection;
 @Component
 public class TransactionCheckCsvPrinter implements TransactionCheckPrinter<String> {
 	@Override
-	public String print(Collection<TransactionCheck> checks) {
-		StringBuilder sb = new StringBuilder("ID;AMOUNT;ORIGINAL_AMOUNT;AMOUNTS_MATCH\n");
-		checks.forEach(t->sb.append(print(t) + "\n"));
-		return sb.toString();
+	public String print(Stream<TransactionCheck> checks) {
+		return checks
+				.map(this::print)
+				.reduce("ID;AMOUNT;ORIGINAL_AMOUNT;AMOUNTS_MATCH", 
+						(accumulator, string) -> accumulator + "\n" + string);
 	}
 
 	public String print(TransactionCheck check) {

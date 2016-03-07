@@ -6,12 +6,14 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import shtykh.trancheck.data.TransactionDb;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * Created by shtykh on 05/03/16.
@@ -36,7 +38,18 @@ public class TransactionDaoImpl implements TransactionDao {
 
 	@Override
 	public List<TransactionDb> getByIds(Collection<Integer> keys) {
-		throw new NotImplementedException(); // TODO
+		return jdbcTemplate.query(getQueryForSize(keys.size()),
+				pss -> initPreparedStatement(pss, keys),
+				TRANSACTION_MAPPER)
+				.stream()
+				.collect(Collectors.toList());
+	}
+
+	private void initPreparedStatement(PreparedStatement pss, Collection<Integer> keys) throws SQLException {
+		int i = 0;
+		for (Integer key : keys) {
+			pss.setInt(++i, key);
+		}
 	}
 
 	@Override
