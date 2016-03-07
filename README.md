@@ -41,7 +41,7 @@ There's another way to access the service: via rest api: once you installed all 
 {"id":126, "amount":101.50}
 ]
 ```
-onto (http://localhost:8080/check) and get a json answer like this:
+onto http://localhost:8080/check and get a json answer like this:
 ```
 [
     {
