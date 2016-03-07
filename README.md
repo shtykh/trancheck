@@ -82,6 +82,5 @@ onto (http://localhost:8080/check) and get a json answer like this:
     }
 ]
 ```
-(img )
-## user manual
+## installation manual
 is coming soon
