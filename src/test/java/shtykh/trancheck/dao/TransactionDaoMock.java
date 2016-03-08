@@ -1,6 +1,8 @@
 package shtykh.trancheck.dao;
 
 import org.springframework.stereotype.Component;
+import shtykh.trancheck.data.Transaction;
+import shtykh.trancheck.data.TransactionCheck;
 import shtykh.trancheck.data.TransactionDb;
 
 import java.util.Collection;
@@ -16,13 +18,16 @@ import java.util.stream.Stream;
 @Component
 public class TransactionDaoMock implements TransactionDao {
 	private Map<Integer, TransactionDb> map;
+	private int FLOOR = 0;
+	private int CEILING = 10;
+	private double MULTIPLICATOR = 10.;
 
 	public TransactionDaoMock() {
 		super();
 		map = new HashMap<>();
 		IntStream
-				.range(0, 10)
-				.forEach(i -> map.put(i, new TransactionDb(i, i * 10., String.valueOf(i))));
+				.range(FLOOR, CEILING)
+				.forEach(i -> map.put(i, new TransactionDb(i, i * MULTIPLICATOR, String.valueOf(i))));
 	}
 
 	public Stream<TransactionDb> getByIds(Collection<Integer> keys) {
@@ -37,5 +42,14 @@ public class TransactionDaoMock implements TransactionDao {
 	@Override
 	public Optional<TransactionDb> getById(Integer key) {
 		return Optional.ofNullable(map.get(key));
+	}
+	
+	public boolean exists(Transaction t) {
+		return t.getId() < CEILING && t.getId() >= FLOOR;
+	}
+
+	public boolean matches(TransactionCheck t) {
+		return exists(t)
+				&& (t.getAmount() == t.getId() * MULTIPLICATOR);
 	}
 }

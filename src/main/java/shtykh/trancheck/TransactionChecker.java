@@ -39,7 +39,7 @@ public class TransactionChecker {
 		return new TransactionCheck(t, dao.getById(t.getId()));
 	}
 
-	public TransactionCheck matchWithFirst(Transaction t, LinkedList<TransactionDb> originals) {
+	private TransactionCheck matchWithFirst(Transaction t, LinkedList<TransactionDb> originals) {
 		while (! originals.isEmpty()) {
 			TransactionDb first = originals.getFirst();
 			if(t.getId()==first.getId()) {

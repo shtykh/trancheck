@@ -1,6 +1,5 @@
 package shtykh.trancheck.producer.web;
 
-import junit.framework.TestCase;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -14,13 +13,14 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.web.client.RestTemplate;
 import shtykh.trancheck.MainApplication;
 import shtykh.trancheck.TransactionChecker;
+import shtykh.trancheck.TransactionCheckerTest;
 import shtykh.trancheck.dao.TransactionDaoMock;
-import shtykh.trancheck.data.Transaction;
 import shtykh.trancheck.data.TransactionCheck;
+import shtykh.trancheck.data.TransactionJson;
 import shtykh.trancheck.data.rest.TransactionCheckList;
+import shtykh.trancheck.data.rest.TransactionJsonList;
 import shtykh.trancheck.print.TransactionCheckRestPrinter;
 
-import java.util.Collection;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -33,10 +33,10 @@ import java.util.stream.IntStream;
 		MainApplication.class})
 @WebAppConfiguration
 @IntegrationTest("server.port=9000")
-public class TransactionRestProducerTest extends TestCase {
-	private static final Collection<Transaction> REQUEST = IntStream.range(0, 11)
-			.mapToObj(id -> new Transaction(id, id * 100.))
-			.collect(Collectors.toList());
+public class TransactionRestProducerTest extends TransactionCheckerTest {
+	private static final TransactionJsonList REQUEST = IntStream.range(0, 11)
+			.mapToObj(id -> new TransactionJson(id, id * 100.))
+			.collect(Collectors.toCollection(TransactionJsonList::new));
 	private RestTemplate restTemplate;
 
 	@Before
@@ -52,5 +52,6 @@ public class TransactionRestProducerTest extends TestCase {
 		Assert.assertEquals(REQUEST.size(), checkList.size());
 		Assert.assertEquals(10, checkList.stream().filter(t -> t.getOriginalAmount() != null).count());
 		Assert.assertEquals(1, checkList.stream().filter(TransactionCheck::isAmountsMatch).count());
+		assertsCheckMany(checkList.stream());
 	}
 }
