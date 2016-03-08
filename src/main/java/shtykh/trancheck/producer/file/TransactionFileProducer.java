@@ -1,8 +1,9 @@
 package shtykh.trancheck.producer.file;
 
-import org.apache.log4j.Logger;
 import org.apache.commons.io.FileUtils;
+import org.apache.log4j.Logger;
 import shtykh.trancheck.data.Transaction;
+import shtykh.trancheck.ex.TransactionException;
 import shtykh.trancheck.producer.TransactionProducer;
 
 import java.io.File;
@@ -15,8 +16,12 @@ import java.util.Collection;
 public abstract class TransactionFileProducer<T extends Transaction> extends TransactionProducer<File, T, String> {
 	private static Logger log = Logger.getLogger(TransactionFileProducer.class);
 	@Override
-	public final Collection<T> toTransactions(File file) {
-		return readFromFile(file);
+	public final Collection<T> toTransactions(File file) throws TransactionException {
+		try {
+			return readFromFile(file);
+		} catch (IOException e) {
+			throw new TransactionException("Read transactions from file error", e);
+		}
 	}
 
 	private File initFile() {
@@ -25,14 +30,10 @@ public abstract class TransactionFileProducer<T extends Transaction> extends Tra
 
 	protected abstract String getPath();
 
-	protected abstract Collection<T> readFromFile(File file);
+	protected abstract Collection<T> readFromFile(File file) throws IOException;
 	
-	public final void check() {
-		try {
-			writeToFile(check(initFile()));
-		} catch (IOException e) {
-			log.error(e);
-		}
+	public final void check() throws IOException, TransactionException {
+		writeToFile(check(initFile()));
 	}
 
 	protected void writeToFile(String checkingResult) throws IOException {

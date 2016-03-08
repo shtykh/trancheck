@@ -8,8 +8,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import shtykh.trancheck.data.TransactionCheck;
 import shtykh.trancheck.data.TransactionJson;
+import shtykh.trancheck.ex.TransactionException;
 import shtykh.trancheck.print.TransactionCheckPrinter;
-import shtykh.trancheck.print.TransactionCheckTrivialPrinter;
+import shtykh.trancheck.print.TransactionCheckRestPrinter;
 import shtykh.trancheck.producer.TransactionProducer;
 
 import java.util.Collection;
@@ -20,7 +21,7 @@ import java.util.Collection;
 @Controller
 public class TransactionRestProducer extends TransactionProducer<Collection<TransactionJson>, TransactionJson, Collection<TransactionCheck>> {
 	@Autowired
-	private TransactionCheckTrivialPrinter printer;
+	private TransactionCheckRestPrinter printer;
 
 	@Override
 	protected Collection<TransactionJson> toTransactions(Collection<TransactionJson> jsonArray) {
@@ -34,7 +35,7 @@ public class TransactionRestProducer extends TransactionProducer<Collection<Tran
 
 	@RequestMapping(value="/check", method= RequestMethod.POST, produces="application/json", consumes = "application/json")
 	@ResponseBody
-	public Collection<TransactionCheck> check(@RequestBody Collection<TransactionJson> json) {
+	public Collection<TransactionCheck> check(@RequestBody Collection<TransactionJson> json) throws TransactionException {
 		return super.check(json);
 	}
 }

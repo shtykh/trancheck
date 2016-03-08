@@ -30,7 +30,9 @@ public class TransactionChecker {
 									.stream()
 									.sorted(byId)
 									.collect(Collectors.toCollection(LinkedList::new));
-		return transactions.stream().sorted(byId).map(t -> matchWithFirst(t, originals));
+		return transactions.stream()
+				.sorted(byId)
+				.map(t -> matchWithFirst(t, originals));
 	}
 
 	public TransactionCheck check(Transaction t) {

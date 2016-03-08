@@ -12,8 +12,8 @@ import java.util.stream.Stream;
  * Created by shtykh on 07/03/16.
  */
 @Component
-public class TransactionCheckTrivialPrinter implements TransactionCheckPrinter<Collection<TransactionCheck>> {
-	private static final Logger log = Logger.getLogger(TransactionCheckTrivialPrinter.class);
+public class TransactionCheckRestPrinter implements TransactionCheckPrinter<Collection<TransactionCheck>> {
+	private static final Logger log = Logger.getLogger(TransactionCheckRestPrinter.class);
 	@Override
 	public Collection<TransactionCheck> print(Stream<TransactionCheck> checks) {
 		return checks.collect(Collectors.toList());

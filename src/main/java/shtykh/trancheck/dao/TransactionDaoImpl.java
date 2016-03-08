@@ -21,7 +21,11 @@ import java.util.stream.Collectors;
 @Component
 public class TransactionDaoImpl implements TransactionDao {
 	private static final String GET_BY_ID_QUERY = 
-			"SELECT t.id, t.amount, t.data FROM transactions t " +
+			"SELECT " +
+			"t.id, " +
+			"t.amount, " +
+			"t.data " +
+			"FROM transactions t " +
 			"WHERE t.id IN ";
 
 	private static final RowMapper<TransactionDb> TRANSACTION_MAPPER =

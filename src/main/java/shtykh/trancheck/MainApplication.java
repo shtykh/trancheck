@@ -8,7 +8,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.ImportResource;
 import shtykh.trancheck.dao.TransactionDaoImpl;
 import shtykh.trancheck.print.TransactionCheckCsvPrinter;
-import shtykh.trancheck.print.TransactionCheckTrivialPrinter;
+import shtykh.trancheck.print.TransactionCheckRestPrinter;
 import shtykh.trancheck.producer.file.TransactionCsvProducer;
 import shtykh.trancheck.producer.web.TransactionRestProducer;
 
@@ -25,7 +25,7 @@ public class MainApplication {
 			Object[] classes = new Object[]{
 					TransactionCheckCsvPrinter.class,
 					TransactionCsvProducer.class,
-					TransactionCheckTrivialPrinter.class,
+					TransactionCheckRestPrinter.class,
 					TransactionRestProducer.class,
 					TransactionDaoImpl.class,
 					TransactionChecker.class,
