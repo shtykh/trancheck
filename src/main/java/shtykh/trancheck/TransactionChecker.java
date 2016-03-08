@@ -23,11 +23,11 @@ public class TransactionChecker {
 			Comparator.comparingInt(Transaction::getId);
 
 	public Stream<TransactionCheck> check(Collection<? extends Transaction> transactions) {
+		//LinkedList is used instead of ArrayList to remove head more efficiently
 		LinkedList<TransactionDb> originals = dao.getByIds(transactions
 												.stream()
 												.map(Transaction::getId)
 												.collect(Collectors.toSet()))
-									.stream()
 									.sorted(byId)
 									.collect(Collectors.toCollection(LinkedList::new));
 		return transactions.stream()

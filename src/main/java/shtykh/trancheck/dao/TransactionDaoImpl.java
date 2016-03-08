@@ -11,9 +11,8 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * Created by shtykh on 05/03/16.
@@ -41,12 +40,21 @@ public class TransactionDaoImpl implements TransactionDao {
 	private JdbcTemplate jdbcTemplate;
 
 	@Override
-	public List<TransactionDb> getByIds(Collection<Integer> keys) {
+	public Stream<TransactionDb> getByIds(Collection<Integer> keys) {
 		return jdbcTemplate.query(getQueryForSize(keys.size()),
 				pss -> initPreparedStatement(pss, keys),
 				TRANSACTION_MAPPER)
-				.stream()
-				.collect(Collectors.toList());
+				.stream();
+	}
+
+	@Override
+	public Optional<TransactionDb> getById(Integer key) {
+		return jdbcTemplate.query(getQueryForSize(1),
+				preparedStatement -> {
+					preparedStatement.setInt(1, key);
+				},
+				TRANSACTION_MAPPER)
+				.stream().findAny();
 	}
 
 	private void initPreparedStatement(PreparedStatement pss, Collection<Integer> keys) throws SQLException {
@@ -54,14 +62,5 @@ public class TransactionDaoImpl implements TransactionDao {
 		for (Integer key : keys) {
 			pss.setInt(++i, key);
 		}
-	}
-
-	@Override
-	public Optional<TransactionDb> getById(Integer key) {
-		return jdbcTemplate.query(getQueryForSize(1),
-				preparedStatement -> {preparedStatement.setInt(1, key);},
-				TRANSACTION_MAPPER)
-				.stream()
-				.findAny();
 	}
 }

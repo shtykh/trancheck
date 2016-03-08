@@ -28,7 +28,9 @@ import java.util.stream.Stream;
 @Component
 public class TransactionCsvProducer extends TransactionFileProducer<TransactionCsv> {
 	private static Logger log = Logger.getLogger(TransactionCsvProducer.class);
-
+	private static String PID_HEADER = "PID";
+	private static String PAMOUNT_HEADER = "PAMOUNT";
+	private static String PDATA_HEADER = "PDATA";
 	@Autowired
 	private TransactionCheckCsvPrinter printer;
 	@Value("${file.csv.path}")
@@ -40,7 +42,7 @@ public class TransactionCsvProducer extends TransactionFileProducer<TransactionC
 	private DateFormat dateFormat;
 	private CSVFormat csvFormat = CSVFormat
 			.newFormat(';')
-			.withHeader("PID", "PAMOUNT", "PDATA")
+			.withHeader(PID_HEADER, PAMOUNT_HEADER, PDATA_HEADER)
 			.withSkipHeaderRecord(true)
 			.withRecordSeparator(";\n");
 	@PostConstruct
@@ -59,9 +61,9 @@ public class TransactionCsvProducer extends TransactionFileProducer<TransactionC
 
 	private Stream<TransactionCsv> toTransaction(CSVRecord record) {
 		try{
-			int pid = Integer.decode(record.get("PID"));
-			double pamount = Double.valueOf(record.get("PAMOUNT"));
-			Date pdata = dateFormat.parse(record.get("PDATA"));
+			int pid = Integer.decode(record.get(PID_HEADER));
+			double pamount = Double.valueOf(record.get(PAMOUNT_HEADER));
+			Date pdata = dateFormat.parse(record.get(PDATA_HEADER));
 			return Stream.of(new TransactionCsv(pid, pamount, pdata));
 		} catch (Exception e) {
 			log.warn(record.toString() + " could not be parsed into transaction", e);
@@ -77,6 +79,11 @@ public class TransactionCsvProducer extends TransactionFileProducer<TransactionC
 	@Override
 	protected String getPath() {
 		return path;
+	}
+
+	@Override
+	protected String getCharset() {
+		return charset;
 	}
 
 	@Override
