@@ -39,6 +39,13 @@ public class TransactionChecker {
 		return new TransactionCheck(t, dao.getById(t.getId()));
 	}
 
+	/**
+	 * * The procedure deletes all the originals which id is less then t.id 
+	 * * and then returns match (t, head(originals)) if their ids matches or (t,null) otherwise
+	 * @param t - transaction to match
+	 * @param originals - sorted linked list of original transactions from db
+	 * @return - TransactionCheck matching t with new head of the originals list or transactionCheck with no original
+	 */
 	private TransactionCheck matchWithFirst(Transaction t, LinkedList<TransactionDb> originals) {
 		while (! originals.isEmpty()) {
 			TransactionDb first = originals.getFirst();
@@ -46,6 +53,8 @@ public class TransactionChecker {
 				return new TransactionCheck(t, first);
 			} else if (t.getId() > first.getId()) {
 				originals.removeFirst();
+			} else { // id of transaction is less than minimal id found in base => there's no match
+				return new TransactionCheck(t);
 			}
 		}
 		return new TransactionCheck(t);
