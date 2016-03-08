@@ -21,7 +21,7 @@ import java.util.stream.Stream;
 @SpringApplicationConfiguration(classes = {
 		TransactionDaoMock.class,
 		TransactionChecker.class})
-public class TransactionCheckerTest extends TestCase {
+public abstract class TransactionCheckerTest extends TestCase {
 	private static final double DELTA = 0.0001;
 	@Autowired
 	TransactionChecker checker;
