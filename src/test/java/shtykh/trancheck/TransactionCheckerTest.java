@@ -28,7 +28,7 @@ public abstract class TransactionCheckerTest extends TestCase {
 	@Autowired
 	TransactionDaoMock daoMock;
 
-	private static final Collection<Transaction> REQUEST = IntStream.range(0, 11)
+	private static final Collection<Transaction> REQUEST = IntStream.range(-1, 11)
 			.mapToObj(id -> new Transaction(id, id * 100.))
 			.collect(Collectors.toList());
 
@@ -56,7 +56,7 @@ public abstract class TransactionCheckerTest extends TestCase {
 	public void testOne() throws Exception {
 		testTransactionsMatches(new Transaction(1, 10));
 		testTransactionDoesntMatch(new Transaction(2, 20.001));
-		testTransactionDoesntExist(new Transaction(-1, 10));
+		testTransactionDoesntExist(new Transaction(-10, 10));
 	}
 	
 	public void testTransactionsMatches(Transaction original) throws Exception {
