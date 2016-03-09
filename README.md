@@ -83,4 +83,4 @@ onto http://localhost:8080/check and get a json answer like this:
 ]
 ```
 ## installation manual
-You got to install postgresql server, run the init_db.sh script to initialize you base and fill its credentials properly in /src/main/resources/application.properties. You also got to add proper path to your csv input file. Then just mvn package it and launch via java -jar.
+You got to install _postgresql_ server, run the _init_db.sh_ script to initialize you base and fill its credentials properly in _application.properties_. You also got to add proper path to your csv input file. Then just *mvn package* it and launch via *java -jar*.
