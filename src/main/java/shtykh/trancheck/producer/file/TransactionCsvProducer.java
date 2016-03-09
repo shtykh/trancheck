@@ -31,6 +31,7 @@ public class TransactionCsvProducer extends TransactionFileProducer<TransactionC
 	private static String PID_HEADER = "PID";
 	private static String PAMOUNT_HEADER = "PAMOUNT";
 	private static String PDATA_HEADER = "PDATA";
+	
 	@Autowired
 	private TransactionCheckCsvPrinter printer;
 	@Value("${file.csv.path}")
@@ -39,12 +40,14 @@ public class TransactionCsvProducer extends TransactionFileProducer<TransactionC
 	private String charset;
 	@Value("${file.csv.dateFormatString}")
 	private String dateFormatString;
+	
 	private DateFormat dateFormat;
 	private CSVFormat csvFormat = CSVFormat
 			.newFormat(';')
 			.withHeader(PID_HEADER, PAMOUNT_HEADER, PDATA_HEADER)
 			.withSkipHeaderRecord(true)
 			.withRecordSeparator(";\n");
+	
 	@PostConstruct
 	private void initDateFormat() {
 		dateFormat = new SimpleDateFormat(dateFormatString);

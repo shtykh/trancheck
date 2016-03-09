@@ -41,10 +41,12 @@ public class TransactionDaoImpl implements TransactionDao {
 
 	@Override
 	public Stream<TransactionDb> getByIds(Collection<Integer> keys) {
-		return jdbcTemplate.query(getQueryForSize(keys.size()),
-				pss -> initPreparedStatement(pss, keys),
-				TRANSACTION_MAPPER)
-				.stream();
+		return keys.isEmpty() ? 
+				Stream.empty() : 
+				jdbcTemplate.query(getQueryForSize(keys.size()),
+									pss -> initPreparedStatement(pss, keys),
+									TRANSACTION_MAPPER)
+									.stream();
 	}
 
 	@Override

@@ -12,7 +12,6 @@ import shtykh.trancheck.data.Transaction;
 import shtykh.trancheck.data.TransactionCheck;
 
 import java.util.Collection;
-import java.util.function.Consumer;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -38,18 +37,15 @@ public abstract class TransactionCheckerTest extends TestCase {
 	}
 
 	protected void assertsCheckMany(Stream<TransactionCheck> checks) {
-		checks.forEach(new Consumer<TransactionCheck>() {
-			@Override
-			public void accept(TransactionCheck ck) {
+		checks.forEach(ck-> {
 				if (! daoMock.exists(ck)) {
 					testCheckDoesntExists(ck);
 				} else if (daoMock.matches(ck)) {
 					testCheckMatches(ck);
 				} else {
 					testCheckDoesntMatch(ck);
-				}
-			}
-		});
+				}}
+		);
 	}
 
 	@Test

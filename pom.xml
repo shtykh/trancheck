@@ -6,7 +6,7 @@
 
     <groupId>shtykh</groupId>
     <artifactId>TransactionChecker</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0</version>
 
     <!-- Inherit defaults from Spring Boot -->
 <parent>
