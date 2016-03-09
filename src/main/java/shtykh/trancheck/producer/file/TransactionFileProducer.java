@@ -1,6 +1,5 @@
 package shtykh.trancheck.producer.file;
 
-import org.apache.commons.io.FileUtils;
 import shtykh.trancheck.data.Transaction;
 import shtykh.trancheck.ex.TransactionException;
 import shtykh.trancheck.producer.TransactionProducer;
@@ -8,6 +7,8 @@ import shtykh.trancheck.producer.TransactionProducer;
 import java.io.File;
 import java.io.IOException;
 import java.util.Collection;
+
+import static org.apache.commons.io.FileUtils.writeStringToFile;
 
 /**
  * Created by shtykh on 06/03/16.
@@ -22,17 +23,20 @@ public abstract class TransactionFileProducer<T extends Transaction> extends Tra
 		}
 	}
 
+	public final void check() throws TransactionException {
+		try {
+			writeToFile(check(initFile()));
+		} catch (IOException e) {
+			throw new TransactionException("Write transaction check result to file error", e);
+		}
+	}
+
 	private File initFile() {
 		return new File(getPath());
 	}
 
-	public final void check() throws IOException, TransactionException {
-		writeToFile(check(initFile()));
-	}
-
 	protected void writeToFile(String checkingResult) throws IOException {
-		File f = new File(getOutputPath());
-		FileUtils.writeStringToFile(f, checkingResult, getCharset());
+		writeStringToFile(new File(getOutputPath()), checkingResult, getCharset());
 	}
 
 	protected abstract Collection<T> readFromFile(File file) throws IOException;

@@ -45,7 +45,7 @@ public class TransactionRestProducerTest extends TransactionCheckerTest {
 	}
 
 	@Test
-	public void testCheck() throws Exception {
+	public void testCheck() {
 		ResponseEntity<TransactionCheckList> entity =
 				restTemplate.postForEntity("http://localhost:9000/check", REQUEST, TransactionCheckList.class);
 		TransactionCheckList checkList = entity.getBody();

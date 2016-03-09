@@ -32,7 +32,7 @@ public abstract class TransactionCheckerTest extends TestCase {
 			.collect(Collectors.toList());
 
 	@Test
-	public void testCheckMany() throws Exception {
+	public void testCheckMany() {
 		assertsCheckMany(checker.check(REQUEST));
 	}
 
@@ -49,13 +49,13 @@ public abstract class TransactionCheckerTest extends TestCase {
 	}
 
 	@Test
-	public void testOne() throws Exception {
+	public void testOne() {
 		testTransactionsMatches(new Transaction(1, 10));
 		testTransactionDoesntMatch(new Transaction(2, 20.001));
 		testTransactionDoesntExist(new Transaction(-10, 10));
 	}
 	
-	public void testTransactionsMatches(Transaction original) throws Exception {
+	public void testTransactionsMatches(Transaction original) {
 		TransactionCheck check = checker.check(original);
 		Assert.assertEquals(original.getId(), check.getId());
 		Assert.assertEquals(original.getAmount(), check.getAmount(), DELTA);
@@ -69,7 +69,7 @@ public abstract class TransactionCheckerTest extends TestCase {
 		Assert.assertEquals(check.getOriginalAmount(), Double.valueOf(check.getAmount()));
 	}
 
-	public void testTransactionDoesntMatch(Transaction original) throws Exception {
+	public void testTransactionDoesntMatch(Transaction original) {
 		TransactionCheck check = checker.check(original);
 		Assert.assertEquals(original.getId(), check.getId());
 		Assert.assertEquals(original.getAmount(), check.getAmount(), DELTA);
@@ -81,7 +81,7 @@ public abstract class TransactionCheckerTest extends TestCase {
 		Assert.assertNotNull(check.getOriginalAmount());
 	}
 
-	public void testTransactionDoesntExist(Transaction original) throws Exception {
+	public void testTransactionDoesntExist(Transaction original) {
 		TransactionCheck check = checker.check(original);
 		Assert.assertEquals(original.getId(), check.getId());
 		Assert.assertEquals(original.getAmount(), check.getAmount(), DELTA);
